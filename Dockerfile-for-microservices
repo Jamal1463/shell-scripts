@@ -1,0 +1,16 @@
+Dockerfile for Microservices
+============================
+FROM maven:3-5-jdk-alpine 
+COPY scr /home/app/src
+COPY pom.xml /home/app/
+COPY settings.xml /home/app/
+COPY certificates/example.cer /usr/local/share/ca-certificates/
+RUN chmod 644 /usr/local/share/ca-certificates/example.cer
+COPY certificates/example1.crt /usr/local/share/ca-certificates/
+RUN chmod 644 /usr/local/share/ca-certificates/example1.crt
+-
+-
+-
+RUN update-ca-certificates
+WORKDIR /home/app/
+RUN mvn -f /home/app/pom.xml clean install --settings /home/app/settings.xml
